@@ -1,0 +1,8 @@
+*.zip
+*.log
+*.ckpt
+logs/
+test_images/
+__pycache__/
+config/__pycache__/
+clearMlKey.py
