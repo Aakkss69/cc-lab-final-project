@@ -27,10 +27,22 @@ test_prefix = config.S3_DATA_PREFIX + "test/"
 s3 = boto3.client('s3')
 
 # Load the model
-model = Classifier.load_from_checkpoint(
-    "/home/ec2-user/final_proj/streamlit_image_classification/logs/lightning_logs/version_0/checkpoints/streamlit-image-classification-epoch=00-val_loss=0.00.ckpt"
-)
+#model = Classifier.load_from_checkpoint(
+#    "/home/ec2-user/final_proj/streamlit_image_classification/logs/lightning_logs/version_0/checkpoints/streamlit-image-classification-epoch=00-val_loss=0.00.ckpt"
+#)
+
+bucket_name = "cc-lab-final-proj-bucket"
+s3_key = "models/animal_classficiation_model.ckpt"
+local_checkpoint_path = "/tmp/animal_classification_model.ckpt"
+
+# Download the checkpoint from S3 to a temporary local path
+s3 = boto3.client('s3')
+s3.download_file(bucket_name, s3_key, local_checkpoint_path)
+
+# Load the model from the local checkpoint file
+model = Classifier.load_from_checkpoint(local_checkpoint_path)
 model.eval()
+
 
 # Define labels
 #labels = [
